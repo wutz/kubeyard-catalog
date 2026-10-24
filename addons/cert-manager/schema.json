@@ -3,6 +3,12 @@
   "title": "cert-manager 参数",
   "type": "object",
   "properties": {
-    "replicaCount": { "type": "integer", "minimum": 1, "default": 2, "title": "controller 副本数" }
+    "replicaCount": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 2,
+      "title": "controller 副本数",
+      "x-kubeyard-target": "values"
+    }
   }
 }

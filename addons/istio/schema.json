@@ -3,6 +3,12 @@
   "title": "Istio 参数",
   "type": "object",
   "properties": {
-    "autoscaleMin": { "type": "integer", "minimum": 1, "default": 1, "title": "istiod 最小副本数" }
+    "autoscaleMin": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "title": "istiod 最小副本数",
+      "x-kubeyard-target": "values"
+    }
   }
 }

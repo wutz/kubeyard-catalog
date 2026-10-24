@@ -3,6 +3,12 @@
   "title": "Metrics Server 参数",
   "type": "object",
   "properties": {
-    "replicas": { "type": "integer", "minimum": 1, "default": 1, "title": "副本数" }
+    "replicas": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "title": "副本数",
+      "x-kubeyard-target": "values"
+    }
   }
 }

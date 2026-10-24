@@ -6,21 +6,40 @@
     "driver": {
       "type": "object",
       "properties": {
-        "enabled": { "type": "boolean", "default": false, "title": "由 Operator 安装 GPU 驱动" },
-        "version": { "type": "string", "default": "580.95.05", "title": "驱动版本（仅 enabled 时生效）" }
-      }
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "title": "由 Operator 安装 GPU 驱动"
+        },
+        "version": {
+          "type": "string",
+          "default": "580.95.05",
+          "title": "驱动版本（仅 enabled 时生效）"
+        }
+      },
+      "x-kubeyard-target": "values"
     },
     "dcgmExporter": {
       "type": "object",
       "properties": {
-        "enabled": { "type": "boolean", "default": false, "title": "启用 DCGM Exporter" }
-      }
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "title": "启用 DCGM Exporter"
+        }
+      },
+      "x-kubeyard-target": "values"
     },
     "migManager": {
       "type": "object",
       "properties": {
-        "enabled": { "type": "boolean", "default": false, "title": "启用 MIG Manager" }
-      }
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "title": "启用 MIG Manager"
+        }
+      },
+      "x-kubeyard-target": "values"
     }
   }
 }

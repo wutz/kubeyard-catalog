@@ -9,10 +9,21 @@
         "mirroredRegistries": {
           "type": "array",
           "title": "需要镜像的上游仓库",
-          "items": { "type": "string", "format": "uri" },
-          "default": ["https://docker.io", "https://gcr.io", "https://ghcr.io", "https://registry.k8s.io", "https://nvcr.io", "https://quay.io"]
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "default": [
+            "https://docker.io",
+            "https://gcr.io",
+            "https://ghcr.io",
+            "https://registry.k8s.io",
+            "https://nvcr.io",
+            "https://quay.io"
+          ]
         }
-      }
+      },
+      "x-kubeyard-target": "values"
     }
   }
 }
