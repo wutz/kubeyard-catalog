@@ -43,7 +43,6 @@ spec:
             deviceClassWhitelist: ["02", "0200", "0207", "0300", "0302"]
             deviceLabelFields: [vendor]
     master:
-      replicaCount: 2
       serviceAccount:
         name: node-feature-discovery
         create: true

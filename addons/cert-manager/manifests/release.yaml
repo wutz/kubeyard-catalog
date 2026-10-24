@@ -23,7 +23,6 @@ spec:
     crds:
       enabled: true
       keep: true
-    replicaCount: 2
     podDisruptionBudget:
       enabled: true
     webhook:

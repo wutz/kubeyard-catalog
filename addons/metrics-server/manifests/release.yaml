@@ -20,4 +20,3 @@ spec:
       name: addon-metrics-server-params
       optional: true
   values:
-    replicas: 1
