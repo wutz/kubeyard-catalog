@@ -69,6 +69,6 @@ spec:
     - name: forgeai
       category: ai
       scope: [host]
-      version: 0.3.0
+      version: 0.3.1
       path: addons/forgeai
       dependsOn: []
