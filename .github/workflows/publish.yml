@@ -40,7 +40,7 @@ jobs:
           set -o pipefail
           flux push artifact "oci://${CATALOG_REF}:${GITHUB_REF_NAME}" \
             --path="." \
-            --ignore-paths="/.github/,/scripts/" \
+            --ignore-paths=".git/,.gitignore,*.key,/.github/,/scripts/" \
             --source="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
             --revision="${GITHUB_REF_NAME}@sha1:${GITHUB_SHA}" | tee push.log
           DIGEST=$(grep -oE 'sha256:[a-f0-9]{64}' push.log | head -1)
