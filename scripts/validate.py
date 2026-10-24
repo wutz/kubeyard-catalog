@@ -5,6 +5,7 @@
 - schema.json 是合法 JSON Schema（能被 jsonschema 解析）
 - manifests/ 下所有 YAML 可解析，且 kustomize build 通过
 - 清单中的 ${var} 只能是 Flux postBuild 约定的变量
+- schema 的每个顶层参数都有 x-kubeyard-target；substitute 参数必须是清单中引用的 postBuild 变量
 """
 import json
 import pathlib
@@ -18,6 +19,8 @@ import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ALLOWED_VARS = {"addon_namespace", "metallb_addresses"}
+# 参数的去向：values 写入 addon-<name>-params 的 values.yaml，substitute 作为 postBuild 变量
+TARGETS = ("values", "substitute")
 errors = []
 
 
@@ -48,6 +51,16 @@ for entry in catalog["spec"]["addons"]:
             jsonschema.Draft202012Validator.check_schema(json.loads(schema_file.read_text()))
         except (json.JSONDecodeError, jsonschema.SchemaError) as e:
             fail(f"{name}: schema.json 非法: {e}")
+        else:
+            manifest_text = "".join(p.read_text() for p in (path / "manifests").rglob("*.yaml"))
+            for key, prop in json.loads(schema_file.read_text()).get("properties", {}).items():
+                target = prop.get("x-kubeyard-target")
+                if target not in TARGETS:
+                    fail(f"{name}: 参数 {key} 缺少 x-kubeyard-target（取值 {' | '.join(TARGETS)}）")
+                elif target == "substitute" and f"${{{key}" not in manifest_text:
+                    fail(f"{name}: 参数 {key} 标记为 substitute，但清单中没有 ${{{key}}}")
+                elif target == "substitute" and key not in ALLOWED_VARS:
+                    fail(f"{name}: 参数 {key} 标记为 substitute，但不在允许的变量内")
 
     manifests = path / "manifests"
     for yml in manifests.rglob("*.yaml"):

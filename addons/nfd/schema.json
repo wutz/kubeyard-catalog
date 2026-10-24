@@ -6,8 +6,14 @@
     "master": {
       "type": "object",
       "properties": {
-        "replicaCount": { "type": "integer", "minimum": 1, "default": 2, "title": "控制器副本数" }
-      }
+        "replicaCount": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 2,
+          "title": "控制器副本数"
+        }
+      },
+      "x-kubeyard-target": "values"
     }
   }
 }
