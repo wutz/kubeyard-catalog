@@ -1,0 +1,59 @@
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  CATALOG_REF: ghcr.io/wutz/kubeyard-catalog
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          pip install pyyaml jsonschema
+          curl -fsSL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.7.1/kustomize_v5.7.1_linux_amd64.tar.gz | tar -xz -C /tmp
+          sudo install /tmp/kustomize /usr/local/bin/kustomize
+          curl -fsSL https://github.com/fluxcd/flux2/releases/download/v2.9.6/flux_2.9.6_linux_amd64.tar.gz | tar -xz -C /tmp
+          sudo install /tmp/flux /usr/local/bin/flux
+          curl -fsSL -o /tmp/cosign https://github.com/sigstore/cosign/releases/download/v2.6.1/cosign-linux-amd64
+          sudo install /tmp/cosign /usr/local/bin/cosign
+
+      - name: Validate catalog
+        run: python3 scripts/validate.py
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Push artifact
+        id: push
+        run: |
+          set -o pipefail
+          flux push artifact "oci://${CATALOG_REF}:${GITHUB_REF_NAME}" \
+            --path="." \
+            --ignore-paths="/.github/,/scripts/" \
+            --source="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
+            --revision="${GITHUB_REF_NAME}@sha1:${GITHUB_SHA}" | tee push.log
+          DIGEST=$(grep -oE 'sha256:[a-f0-9]{64}' push.log | head -1)
+          echo "digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      - name: Tag stable
+        run: flux tag artifact "oci://${CATALOG_REF}:${GITHUB_REF_NAME}" --tag stable
+
+      - name: Sign with cosign
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${CATALOG_REF}@${{ steps.push.outputs.digest }}"
+
+      - name: Verify signature
+        run: cosign verify --key cosign.pub "${CATALOG_REF}@${{ steps.push.outputs.digest }}" >/dev/null && echo "signature verified"

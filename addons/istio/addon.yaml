@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: istio
+spec:
+  displayName: Istio
+  description: 服务网格控制面（istio-base + istiod）。Ingress 网关与 ambient 模式不在本条目内。
+  category: network
+  scope: [host]
+  version: 1.29.1
+  namespace: istio-system
+  dependsOn: [gateway-api-crds]
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: istiod

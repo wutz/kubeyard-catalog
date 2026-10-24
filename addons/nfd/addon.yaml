@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: nfd
+spec:
+  displayName: Node Feature Discovery
+  description: 为节点打上硬件特征标签（PCI、CPU、GPU），供 GPU Operator 与调度使用。
+  category: base
+  scope: [host]
+  version: 0.18.3
+  namespace: nfd
+  dependsOn: []
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: nfd

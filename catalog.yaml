@@ -1,0 +1,62 @@
+# 目录索引。GUI 首先读取此文件，列出可安装条目。
+# 每个条目的 path 相对于 OCI artifact 根目录。
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Catalog
+metadata:
+  name: kubeyard-default
+spec:
+  displayName: Kubeyard 默认目录
+  homepage: https://github.com/wutz/kubeyard-catalog
+  source: oci://ghcr.io/wutz/kubeyard-catalog
+  verify:
+    provider: cosign
+    publicKeyFile: cosign.pub
+  addons:
+    - name: nfd
+      category: base
+      scope: [host]
+      version: 0.18.3
+      path: addons/nfd
+      dependsOn: []
+    - name: spegel
+      category: base
+      scope: [host]
+      version: 0.7.0
+      path: addons/spegel
+      dependsOn: []
+    - name: metrics-server
+      category: base
+      scope: [host, vcluster]
+      version: 3.13.0
+      path: addons/metrics-server
+      dependsOn: []
+    - name: metallb
+      category: network
+      scope: [host]
+      version: 0.15.3
+      path: addons/metallb
+      dependsOn: []
+    - name: cert-manager
+      category: network
+      scope: [host]
+      version: v1.19.1
+      path: addons/cert-manager
+      dependsOn: []
+    - name: gateway-api-crds
+      category: network
+      scope: [host]
+      version: v1.5.1
+      path: addons/gateway-api-crds
+      dependsOn: []
+    - name: istio
+      category: network
+      scope: [host]
+      version: 1.29.1
+      path: addons/istio
+      dependsOn: [gateway-api-crds]
+    - name: gpu-operator
+      category: ai
+      scope: [host]
+      version: v25.10.1
+      path: addons/gpu-operator
+      dependsOn: [nfd]

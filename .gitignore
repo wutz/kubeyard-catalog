@@ -1,0 +1,4 @@
+.DS_Store
+# cosign 私钥只存在于 GitHub Secret 与本机钥匙串，不入库
+cosign.key
+*.key

@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: metallb
+spec:
+  displayName: MetalLB
+  description: 为 LoadBalancer Service 分配 IP（二层模式），虚拟集群 API 暴露依赖它。
+  category: network
+  scope: [host]
+  version: 0.15.3
+  namespace: metallb-system
+  dependsOn: []
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: metallb

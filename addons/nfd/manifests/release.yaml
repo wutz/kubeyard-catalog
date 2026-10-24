@@ -1,0 +1,56 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nfd
+spec:
+  interval: 10m
+  targetNamespace: ${addon_namespace}
+  releaseName: nfd
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: node-feature-discovery
+      version: 0.18.3
+      sourceRef:
+        kind: HelmRepository
+        name: nfd
+  valuesFrom:
+    - kind: ConfigMap
+      name: addon-nfd-params
+      optional: true
+  values:
+    enableNodeFeatureApi: true
+    priorityClassName: system-node-critical
+    gc:
+      enable: true
+      replicaCount: 2
+      serviceAccount:
+        name: node-feature-discovery
+        create: false
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+    worker:
+      serviceAccount:
+        name: node-feature-discovery
+        create: false
+      tolerations:
+        - operator: Exists
+      config:
+        sources:
+          pci:
+            deviceClassWhitelist: ["02", "0200", "0207", "0300", "0302"]
+            deviceLabelFields: [vendor]
+    master:
+      replicaCount: 2
+      serviceAccount:
+        name: node-feature-discovery
+        create: true
+      config:
+        extraLabelNs: ["nvidia.com", "node-role.kubernetes.io", "node.kubernetes.io", "beta.kubernetes.io"]
+        restrictions:
+          allowOverride: true
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule

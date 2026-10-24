@@ -1,0 +1,16 @@
+# 底层（host）集群推荐组件集合，按依赖顺序排列。
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Profile
+metadata:
+  name: host
+spec:
+  displayName: 底层集群基础组件
+  addons:
+    - nfd
+    - spegel
+    - metrics-server
+    - metallb
+    - cert-manager
+    - gateway-api-crds
+    - istio
+    - gpu-operator

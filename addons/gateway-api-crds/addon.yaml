@@ -1,0 +1,15 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: gateway-api-crds
+spec:
+  displayName: Gateway API CRDs
+  description: Kubernetes Gateway API 标准通道 CRD（v1.5.1），供 istio 等实现使用。集群级，无参数。
+  category: network
+  scope: [host]
+  version: v1.5.1
+  namespace: kube-system
+  dependsOn: []
+  health:
+    - kind: Kustomization
+      name: addon-gateway-api-crds

@@ -1,0 +1,41 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gpu-operator
+spec:
+  interval: 10m
+  targetNamespace: ${addon_namespace}
+  releaseName: gpu-operator
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: gpu-operator
+      version: v25.10.1
+      sourceRef:
+        kind: HelmRepository
+        name: nvidia
+  valuesFrom:
+    - kind: ConfigMap
+      name: addon-gpu-operator-params
+      optional: true
+  values:
+    nfd:
+      enabled: false
+    daemonsets:
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+    operator:
+      resources:
+        limits:
+          memory: 2Gi
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+    driver:
+      enabled: false
+    dcgmExporter:
+      enabled: false
+    migManager:
+      enabled: false

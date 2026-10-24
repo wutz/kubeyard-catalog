@@ -1,0 +1,17 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default
+  namespace: ${addon_namespace}
+spec:
+  addresses:
+    - "${metallb_addresses:=192.0.2.10-192.0.2.20}"
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: default
+  namespace: ${addon_namespace}
+spec:
+  ipAddressPools:
+    - default

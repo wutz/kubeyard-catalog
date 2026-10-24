@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GPU Operator 参数",
+  "type": "object",
+  "properties": {
+    "driver": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false, "title": "由 Operator 安装 GPU 驱动" },
+        "version": { "type": "string", "default": "580.95.05", "title": "驱动版本（仅 enabled 时生效）" }
+      }
+    },
+    "dcgmExporter": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false, "title": "启用 DCGM Exporter" }
+      }
+    },
+    "migManager": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false, "title": "启用 MIG Manager" }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: gpu-operator
+spec:
+  displayName: NVIDIA GPU Operator
+  description: 安装 GPU 驱动（可选）、container toolkit、device plugin 与 DCGM 指标。默认假设驱动已由节点镜像提供。
+  category: ai
+  scope: [host]
+  version: v25.10.1
+  namespace: gpu-operator
+  dependsOn: [nfd]
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: gpu-operator

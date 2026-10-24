@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: spegel
+spec:
+  displayName: Spegel 节点镜像缓存
+  description: 在节点之间以 P2P 方式共享容器镜像层，减少重复拉取。
+  category: base
+  scope: [host]
+  version: 0.7.0
+  namespace: spegel
+  dependsOn: []
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: spegel

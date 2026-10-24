@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: cert-manager
+spec:
+  displayName: cert-manager
+  description: 证书签发与轮换，为 Ingress 与 Webhook 提供 TLS。
+  category: network
+  scope: [host]
+  version: v1.19.1
+  namespace: cert-manager
+  dependsOn: []
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: cert-manager

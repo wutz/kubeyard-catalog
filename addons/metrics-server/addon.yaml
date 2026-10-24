@@ -1,0 +1,16 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: metrics-server
+spec:
+  displayName: Metrics Server
+  description: 提供 metrics.k8s.io，支撑 kubectl top 与 HPA。
+  category: base
+  scope: [host, vcluster]
+  version: 3.13.0
+  namespace: kube-system
+  dependsOn: []
+  params: schema.json
+  health:
+    - kind: HelmRelease
+      name: metrics-server
