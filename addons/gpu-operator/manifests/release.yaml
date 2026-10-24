@@ -33,9 +33,3 @@ spec:
       tolerations:
         - operator: Exists
           effect: NoSchedule
-    driver:
-      enabled: false
-    dcgmExporter:
-      enabled: false
-    migManager:
-      enabled: false
