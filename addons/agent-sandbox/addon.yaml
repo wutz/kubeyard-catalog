@@ -1,0 +1,15 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: agent-sandbox
+spec:
+  displayName: agent-sandbox
+  description: Kubernetes SIG 的 Sandbox 控制器与 CRD（agents.x-k8s.io），为隔离的 Agent 运行环境提供 Sandbox、SandboxTemplate 与 SandboxWarmPool。上游清单原样引用，隔离用的 RuntimeClass（gvisor、kata）由节点提供。
+  category: compute
+  scope: [host]
+  version: v1.0.7
+  namespace: agent-sandbox-system
+  dependsOn: []
+  health:
+    - kind: CustomResourceDefinition
+      name: sandboxes.agents.x-k8s.io
