@@ -11,5 +11,5 @@ spec:
   namespace: kube-system
   dependsOn: []
   health:
-    - kind: Kustomization
-      name: addon-gateway-api-crds
+    - kind: CustomResourceDefinition
+      name: gateways.gateway.networking.k8s.io
