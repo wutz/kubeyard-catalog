@@ -60,3 +60,15 @@ spec:
       version: v25.10.1
       path: addons/gpu-operator
       dependsOn: [nfd]
+    - name: agent-sandbox
+      category: compute
+      scope: [host]
+      version: v1.0.7
+      path: addons/agent-sandbox
+      dependsOn: []
+    - name: forgeai
+      category: ai
+      scope: [host]
+      version: 0.3.1
+      path: addons/forgeai
+      dependsOn: []

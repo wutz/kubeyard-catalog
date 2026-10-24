@@ -1,0 +1,15 @@
+apiVersion: catalog.kubeyard.wutz.dev/v1alpha1
+kind: Addon
+metadata:
+  name: forgeai
+spec:
+  displayName: forgeai
+  description: Kubernetes 原生 AI 平台的 operator：Project（租户、配额、网络隔离、成员凭据）、InstanceType 与 FileServer 三个 CRD。前置条件：Kubeflow Trainer v2（含 JobSet）、agent-sandbox、Kueue、NVIDIA GPU Operator、支持 NetworkPolicy 的 CNI、Ingress 控制器与 Harbor。
+  category: ai
+  scope: [host]
+  version: 0.3.1
+  namespace: forgeai-system
+  dependsOn: []
+  health:
+    - kind: CustomResourceDefinition
+      name: projects.forgeai.wutz.dev
