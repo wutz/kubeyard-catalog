@@ -11,5 +11,11 @@ spec:
   namespace: forgeai-system
   dependsOn: []
   health:
+    - kind: HelmRelease
+      name: forgeai
     - kind: CustomResourceDefinition
       name: projects.forgeai.wutz.dev
+    - kind: CustomResourceDefinition
+      name: fileservers.forgeai.wutz.dev
+    - kind: CustomResourceDefinition
+      name: instancetypes.forgeai.wutz.dev
